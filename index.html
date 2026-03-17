@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heritage Royal Foods | Authentic Traditional Flavors</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .food-gradient {
+            background: linear-gradient(135deg, #422006 0%, #78350f 100%);
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+
+        .video-placeholder, .image-placeholder {
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .video-placeholder {
+            background: #1c1917; /* stone-900 */
+        }
+
+        .image-placeholder {
+            background: #f5f5f4; /* stone-100 */
+            border: 2px dashed #d6d3d1; /* stone-300 */
+        }
+
+        .video-placeholder:hover .play-btn, .image-placeholder:hover .view-btn {
+            transform: scale(1.1);
+            color: #f59e0b;
+        }
+
+        .image-placeholder:hover {
+            border-color: #f59e0b;
+            background: #fff;
+        }
+
+        .video-overlay, .image-overlay {
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
+        }
+
+        .nav-link.active {
+            color: #f59e0b;
+            border-bottom: 2px solid #f59e0b;
+        }
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Modal Animation */
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        #modal-content-wrapper {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        #modal.hidden {
+            display: none;
+            opacity: 0;
+        }
+        #modal:not(.hidden) {
+            display: flex;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800">
+
+    <!-- Content Modal (Popup) -->
+    <div id="modal" class="hidden fixed inset-0 z-[100] items-center justify-center p-4 bg-black/90 backdrop-blur-md" onclick="closeModal(event)">
+        <div id="modal-content-wrapper" class="relative max-w-5xl w-full bg-stone-900 rounded-[2rem] overflow-hidden border border-amber-500/30 shadow-2xl scale-95" onclick="event.stopPropagation()">
+            <button onclick="closeModal(event)" class="absolute top-6 right-6 text-white/50 hover:text-amber-500 z-50 bg-black/20 p-2 rounded-full backdrop-blur-md transition-colors">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            <div id="modal-body" class="aspect-video w-full flex items-center justify-center text-white">
+                <!-- Content injected via JS -->
+            </div>
+            <div class="p-6 bg-stone-900 border-t border-white/5">
+                <h4 id="modal-title" class="text-xl font-bold text-amber-500">Content Title</h4>
+                <p id="modal-desc" class="text-stone-400 text-sm mt-1 uppercase tracking-widest font-medium">Heritage Royal Foods Production</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-effect border-b border-stone-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center gap-2">
+                    <div class="bg-amber-600 p-2 rounded-lg shadow-lg shadow-amber-600/20">
+                        <i data-lucide="crown" class="text-white w-6 h-6"></i>
+                    </div>
+                    <span class="text-2xl font-bold tracking-tight text-amber-900 uppercase">Heritage<span class="text-amber-600"> Royal</span></span>
+                </div>
+                
+                <div class="hidden md:flex space-x-8 font-medium">
+                    <a href="#home" class="nav-link hover:text-amber-600 transition-colors">Home</a>
+                    <a href="#products" class="nav-link hover:text-amber-600 transition-colors">Our Products</a>
+                    <a href="#process" class="nav-link hover:text-amber-600 transition-colors">Production</a>
+                    <a href="#gallery" class="nav-link hover:text-amber-600 transition-colors">Gallery</a>
+                    <a href="#about" class="nav-link hover:text-amber-600 transition-colors">About Us</a>
+                    <a href="#contact" class="nav-link hover:text-amber-600 transition-colors">Contact</a>
+                </div>
+
+                <button class="md:hidden p-2" onclick="toggleMenu()">
+                    <i data-lucide="menu" id="menuIcon"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-b border-stone-200 px-4 py-6 space-y-4 shadow-xl">
+            <a href="#home" class="block text-lg font-medium" onclick="toggleMenu()">Home</a>
+            <a href="#products" class="block text-lg font-medium" onclick="toggleMenu()">Our Products</a>
+            <a href="#process" class="block text-lg font-medium" onclick="toggleMenu()">Production</a>
+            <a href="#gallery" class="block text-lg font-medium" onclick="toggleMenu()">Gallery</a>
+            <a href="#about" class="block text-lg font-medium" onclick="toggleMenu()">About Us</a>
+            <a href="#contact" class="block text-lg font-medium" onclick="toggleMenu()">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="pt-32 pb-20 md:pt-48 md:pb-32 food-gradient text-white relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+            <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <path d="M0 100 C 20 0 50 0 100 100 Z" fill="white"></path>
+            </svg>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <span class="inline-block px-4 py-1 bg-amber-500 text-white text-sm font-bold rounded-full mb-6 uppercase tracking-widest">Premium Royal Quality</span>
+                    <h1 class="text-5xl md:text-7xl font-bold leading-tight mb-6">Authentic Tradition, <span class="text-amber-400">Royally Prepared.</span></h1>
+                    <p class="text-lg text-amber-50 mb-8 max-w-lg leading-relaxed">Heritage Royal Foods brings you the finest selection of traditionally processed staples, from our specialty flour blends to our nutrient-packed soup bases.</p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#products" class="px-8 py-4 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-amber-500/30">Explore Products</a>
+                        <a href="#process" class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl backdrop-blur-md transition-all border border-white/20">Watch Process</a>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="rounded-3xl overflow-hidden shadow-2xl border-4 border-white/10 group" onclick="openModal('video', 'The Heritage Journey', 'Brand Story Video')">
+                        <div class="aspect-video video-placeholder">
+                            <i data-lucide="play" class="play-btn w-20 h-20 text-amber-500/80 transition-all duration-300"></i>
+                            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
+                            <div class="absolute bottom-6 left-6 text-left">
+                                <span class="bg-amber-600 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest">Featured</span>
+                                <h3 class="text-xl font-bold mt-1 text-white">Brand Story: The Heritage Journey</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl hidden lg:block">
+                        <div class="flex items-center gap-4">
+                            <div class="bg-amber-100 p-3 rounded-full text-amber-600">
+                                <i data-lucide="shield-check"></i>
+                            </div>
+                            <div>
+                                <p class="text-stone-500 text-xs font-bold uppercase">Certified</p>
+                                <p class="text-stone-800 font-bold">Hygiene Guaranteed</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-amber-950 mb-4">Our Signature Selection</h2>
+                <p class="text-stone-500 max-w-2xl mx-auto">Discover the authentic ingredients that make Heritage Royal Foods a staple in every quality-conscious kitchen.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Product 1: FUFU -->
+                <div class="product-card group bg-stone-50 rounded-3xl overflow-hidden border border-stone-200 transition-all hover:shadow-2xl">
+                    <div class="aspect-square bg-amber-50 overflow-hidden relative cursor-pointer" onclick="openModal('image', 'Heritage Royal Fufu Flour', 'Official Product View')">
+                        <div class="w-full h-full flex flex-col items-center justify-center text-amber-800 font-bold product-image transition-transform duration-500">
+                            <i data-lucide="package-search" class="w-20 h-20 mb-4 opacity-20"></i>
+                            <span class="text-xl tracking-tighter">HERITAGE FUFU</span>
+                        </div>
+                        <div class="absolute top-4 right-4 bg-emerald-600 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase">Fresh Batch</div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold text-amber-950 mb-4 leading-tight">Heritage Royal Fufu Flour</h3>
+                        <p class="text-stone-600 mb-6 text-sm">A premium mixture of high-quality **Cassava and Plantain flour**. Achieve traditional consistency with modern convenience.</p>
+                        
+                        <div class="bg-amber-100/50 p-4 rounded-xl mb-6 border border-amber-200">
+                            <div class="flex items-center gap-2 mb-2 text-amber-900 font-bold text-xs uppercase">
+                                <i data-lucide="calendar" class="w-4 h-4"></i> Shelf Life Info
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <div><span class="text-stone-500 block uppercase font-bold">MFG:</span><span class="text-amber-900 font-semibold">07/03/2026</span></div>
+                                <div><span class="text-stone-500 block uppercase font-bold">EXP:</span><span class="text-red-700 font-semibold">06/03/2027</span></div>
+                            </div>
+                        </div>
+                        <button class="w-full py-4 bg-amber-950 text-white rounded-xl font-bold hover:bg-amber-900 transition-colors">Inquire Now</button>
+                    </div>
+                </div>
+
+                <!-- Product 2: GROUNDNUT -->
+                <div class="product-card group bg-stone-50 rounded-3xl overflow-hidden border border-stone-200 transition-all hover:shadow-2xl">
+                    <div class="aspect-square bg-orange-50 overflow-hidden relative cursor-pointer" onclick="openModal('image', 'Creamy Groundnut Paste', 'Official Product View')">
+                        <div class="w-full h-full flex flex-col items-center justify-center text-orange-800 font-bold product-image transition-transform duration-500">
+                            <i data-lucide="container" class="w-20 h-20 mb-4 opacity-20"></i>
+                            <span class="text-xl tracking-tighter">GROUNDNUT PASTE</span>
+                        </div>
+                        <div class="absolute top-4 right-4 bg-orange-500 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase">Natural</div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold text-amber-950 mb-3">Creamy Groundnut Paste</h3>
+                        <p class="text-stone-600 mb-6 text-sm">Slow-roasted to extract the richest oils. Processed without additives to ensure purity and nutritional density.</p>
+                        <ul class="space-y-2 mb-8 text-sm font-medium text-amber-900">
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-orange-600"></i> 100% Roasted Peanuts</li>
+                        </ul>
+                        <button class="w-full py-4 bg-amber-950 text-white rounded-xl font-bold hover:bg-amber-900 transition-colors">Inquire Now</button>
+                    </div>
+                </div>
+
+                <!-- Product 3: SOUP -->
+                <div class="product-card group bg-stone-50 rounded-3xl overflow-hidden border border-stone-200 transition-all hover:shadow-2xl">
+                    <div class="aspect-square bg-red-50 overflow-hidden relative cursor-pointer" onclick="openModal('image', 'Heritage Royal Soup 🍲', 'Official Ingredients View')">
+                        <div class="w-full h-full flex flex-col items-center justify-center text-red-800 font-bold product-image transition-transform duration-500">
+                            <i data-lucide="flame" class="w-20 h-20 mb-4 opacity-20"></i>
+                            <span class="text-xl tracking-tighter">ROYAL SOUP 🍲</span>
+                        </div>
+                        <div class="absolute top-4 right-4 bg-red-600 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase">Signature Blend</div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold text-amber-950 mb-3">Heritage Royal Soup 🍲</h3>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="bg-stone-200 px-2 py-1 rounded text-[10px] font-bold text-stone-700">Tomatoes 🍅</span>
+                            <span class="bg-stone-200 px-2 py-1 rounded text-[10px] font-bold text-stone-700">Prekese</span>
+                            <span class="bg-stone-200 px-2 py-1 rounded text-[10px] font-bold text-stone-700">Turkey Berry</span>
+                        </div>
+                        <p class="text-stone-600 mb-6 text-sm">A masterfully blended base containing Prekese and Turkey Berry for deep aromatic traditional flavor.</p>
+                        <button class="w-full py-4 bg-amber-950 text-white rounded-xl font-bold hover:bg-amber-900 transition-colors">Inquire Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Production Process Section -->
+    <section id="process" class="py-24 bg-stone-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold text-amber-950 mb-16 text-center">The Royal Standard</h2>
+            <div class="grid md:grid-cols-3 gap-12">
+                <!-- Video Step 1 -->
+                <div class="relative group" onclick="openModal('video', 'Step 1: Ethical Sourcing', 'Raw Ingredient Selection')">
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-md mb-6 p-1 border border-stone-200">
+                        <div class="aspect-video video-placeholder rounded-xl">
+                            <i data-lucide="play-circle" class="play-btn w-12 h-12 text-white/50"></i>
+                            <div class="absolute inset-0 video-overlay flex items-end p-4">
+                                <span class="text-white text-xs font-bold uppercase tracking-widest opacity-80">Sourcing</span>
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="text-xl font-bold text-amber-950 mb-2">1.Sourcing</h4>
+                    <p class="text-stone-500 text-sm">Hand-selecting organic Prekese and Turkey Berry from vetted partners.</p>
+                </div>
+
+                <!-- Video Step 2 -->
+                <div class="relative group" onclick="openModal('video', 'Step 2: Artisanal Processing', 'Factory Blending Process')">
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-md mb-6 p-1 border border-stone-200">
+                        <div class="aspect-video video-placeholder rounded-xl">
+                            <i data-lucide="play-circle" class="play-btn w-12 h-12 text-white/50"></i>
+                            <div class="absolute inset-0 video-overlay flex items-end p-4">
+                                <span class="text-white text-xs font-bold uppercase tracking-widest opacity-80">Processing</span>
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="text-xl font-bold text-amber-950 mb-2">2.Processing</h4>
+                    <p class="text-stone-500 text-sm">Hygienic peeling and grinding using traditional spice methods.</p>
+                </div>
+
+                <!-- Video Step 3 -->
+                <div class="relative group" onclick="openModal('video', 'Step 3: Secure Packaging', 'Vacuum Sealing & QC')">
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-md mb-6 p-1 border border-stone-200">
+                        <div class="aspect-video video-placeholder rounded-xl">
+                            <i data-lucide="play-circle" class="play-btn w-12 h-12 text-white/50"></i>
+                            <div class="absolute inset-0 video-overlay flex items-end p-4">
+                                <span class="text-white text-xs font-bold uppercase tracking-widest opacity-80">Quality Control</span>
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="text-xl font-bold text-amber-950 mb-2">3.Packaging</h4>
+                    <p class="text-stone-500 text-sm">Vacuum-sealing and batch-coding for 12-month shelf life.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Media Library -->
+    <section id="gallery" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-end mb-16">
+                <div>
+                    <h2 class="text-4xl font-bold text-amber-950 mb-4">Media Library</h2>
+                    <p class="text-stone-500 text-sm">TV Ads, Factory Tours, and Official Flyers.</p>
+                </div>
+                <div class="flex gap-4">
+                    <button onclick="filterGallery('videos')" id="btn-videos" class="px-4 py-2 text-amber-900 border-b-2 border-amber-600 font-bold transition-all">Videos</button>
+                    <button onclick="filterGallery('images')" id="btn-images" class="px-4 py-2 text-stone-400 font-bold hover:text-amber-900 transition-all">Images</button>
+                </div>
+            </div>
+
+            <!-- Videos Grid -->
+            <div id="gallery-videos" class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="col-span-2 row-span-2 group" onclick="openModal('video', 'The Taste of Home - TV Spot', 'Commercial Advertisement')">
+                    <div class="aspect-square video-placeholder rounded-3xl shadow-lg border-2 border-stone-100">
+                        <i data-lucide="play" class="play-btn w-16 h-16 text-white/60"></i>
+                        <div class="absolute inset-0 video-overlay flex flex-col justify-end p-8">
+                            <span class="text-amber-400 text-xs font-bold uppercase tracking-widest mb-2">Advertisement</span>
+                            <h4 class="text-2xl font-bold text-white">"The Taste of Home"</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="group" onclick="openModal('video', 'Soup Base Preparation', 'Production Highlight')">
+                    <div class="aspect-square video-placeholder rounded-3xl">
+                        <i data-lucide="play-circle" class="play-btn w-10 h-10 text-white/40"></i>
+                        <div class="absolute inset-0 video-overlay flex items-end p-4"><span class="text-white text-[10px] font-bold uppercase">Prep</span></div>
+                    </div>
+                </div>
+                <div class="group" onclick="openModal('video', 'Factory Hygiene Tour', 'Sustainability Feature')">
+                    <div class="aspect-square video-placeholder rounded-3xl">
+                        <i data-lucide="play-circle" class="play-btn w-10 h-10 text-white/40"></i>
+                        <div class="absolute inset-0 video-overlay flex items-end p-4"><span class="text-white text-[10px] font-bold uppercase">Tour</span></div>
+                    </div>
+                </div>
+                <div class="group" onclick="openModal('video', 'Consistency Test', 'QC Feature')">
+                    <div class="aspect-square video-placeholder rounded-3xl">
+                        <i data-lucide="play-circle" class="play-btn w-10 h-10 text-white/40"></i>
+                        <div class="absolute inset-0 video-overlay flex items-end p-4"><span class="text-white text-[10px] font-bold uppercase">QC</span></div>
+                    </div>
+                </div>
+                <div class="group" onclick="openModal('video', 'Social Media Ad 01', 'Short Promo')">
+                    <div class="aspect-square video-placeholder rounded-3xl">
+                        <i data-lucide="play-circle" class="play-btn w-10 h-10 text-white/40"></i>
+                        <div class="absolute inset-0 video-overlay flex items-end p-4"><span class="text-white text-[10px] font-bold uppercase">Promo</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Images Grid -->
+            <div id="gallery-images" class="hidden grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="group" onclick="openModal('image', 'Heritage Fufu Launch Flyer', 'Official Flyer')">
+                    <div class="aspect-[3/4] image-placeholder rounded-3xl shadow-md">
+                        <i data-lucide="eye" class="view-btn w-10 h-10 text-stone-300"></i>
+                        <div class="absolute inset-0 image-overlay flex flex-col justify-end p-6">
+                            <span class="text-amber-400 text-[10px] uppercase font-bold mb-1">Flyer</span>
+                            <h4 class="text-sm font-bold text-white">Fufu Launch</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="group" onclick="openModal('image', 'Royal Soup Packaging', 'Product Shot')">
+                    <div class="aspect-[3/4] image-placeholder rounded-3xl shadow-md">
+                        <i data-lucide="eye" class="view-btn w-10 h-10 text-stone-300"></i>
+                        <div class="absolute inset-0 image-overlay flex flex-col justify-end p-6">
+                            <span class="text-amber-400 text-[10px] uppercase font-bold mb-1">Packaging</span>
+                            <h4 class="text-sm font-bold text-white">Soup Jar</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="group" onclick="openModal('image', 'Prekese Showcase', 'Ingredient View')">
+                    <div class="aspect-[3/4] image-placeholder rounded-3xl shadow-md">
+                        <i data-lucide="eye" class="view-btn w-10 h-10 text-stone-300"></i>
+                        <div class="absolute inset-0 image-overlay flex flex-col justify-end p-6">
+                            <span class="text-amber-400 text-[10px] uppercase font-bold mb-1">Sourcing</span>
+                            <h4 class="text-sm font-bold text-white">Fresh Spices</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="group" onclick="openModal('image', 'Food Safety Certificate', 'Legal & Quality')">
+                    <div class="aspect-[3/4] image-placeholder rounded-3xl shadow-md">
+                        <i data-lucide="eye" class="view-btn w-10 h-10 text-stone-300"></i>
+                        <div class="absolute inset-0 image-overlay flex flex-col justify-end p-6">
+                            <span class="text-amber-400 text-[10px] uppercase font-bold mb-1">Legal</span>
+                            <h4 class="text-sm font-bold text-white">Certification</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-amber-950 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-20 items-center">
+                <div>
+                    <h2 class="text-4xl font-bold mb-8">Heritage Royal Foods</h2>
+                    <p class="text-amber-50 mb-6 italic">"Quality you can taste, Tradition you can trust."</p>
+                    <p class="text-amber-100 mb-10 text-sm leading-relaxed">Modernizing traditional staples without losing their soul. Every batch of fufu and soup base is monitored to ensure African heritage is preserved on tables worldwide.</p>
+                    <div class="grid grid-cols-2 gap-8 border-t border-amber-900 pt-8">
+                        <div>
+                            <div class="text-3xl font-bold text-amber-400 mb-1">Authentic</div>
+                            <div class="text-amber-200 text-xs font-bold uppercase tracking-widest">Prekese & Spices</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold text-amber-400 mb-1">Modern</div>
+                            <div class="text-amber-200 text-xs font-bold uppercase tracking-widest">Hygienic Packaging</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-center">
+                    <div class="aspect-[4/5] w-full max-w-sm bg-amber-900/50 rounded-3xl flex items-center justify-center border border-amber-800">
+                        <i data-lucide="award" class="w-32 h-32 text-amber-800/50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="bg-stone-50 rounded-[3rem] p-8 md:p-16 border border-stone-200 shadow-xl grid md:grid-cols-2 gap-16">
+                <div>
+                    <h2 class="text-4xl font-bold text-amber-950 mb-6">Connect with Heritage</h2>
+                    <p class="text-stone-500 mb-10">Order your Heritage Royal Soup and Fufu flour today. Deliver tradition to your doorstep.</p>
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="bg-white p-3 rounded-xl shadow-sm text-amber-600 border border-stone-100"><i data-lucide="phone"></i></div>
+                            <div><p class="text-stone-400 text-xs font-bold uppercase mb-1">Call Us</p><p class="text-amber-950 font-bold">+233 555 ROYAL 1</p></div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="bg-white p-3 rounded-xl shadow-sm text-amber-600 border border-stone-100"><i data-lucide="mail"></i></div>
+                            <div><p class="text-stone-400 text-xs font-bold uppercase mb-1">Support</p><p class="text-amber-950 font-bold">hello@heritageroyal.com</p></div>
+                        </div>
+                    </div>
+                    <div class="mt-12 p-6 bg-white rounded-2xl border border-stone-200 inline-flex items-center gap-6">
+                        <div class="w-16 h-16 bg-amber-950 flex items-center justify-center rounded-lg"><i data-lucide="qr-code" class="text-white w-10 h-10"></i></div>
+                        <div><p class="font-bold text-amber-950 text-sm">Download Flyer</p><p class="text-stone-500 text-[10px] uppercase font-bold tracking-widest">Heritage Royal Foods</p></div>
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-stone-100">
+                    <form class="space-y-6">
+                        <div><label class="block text-xs font-bold text-stone-700 mb-2 uppercase">Full Name</label><input type="text" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-amber-500"></div>
+                        <div><label class="block text-xs font-bold text-stone-700 mb-2 uppercase">Order Inquiry</label><select class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 outline-none"><option>Heritage Royal Soup 🍲</option><option>Heritage Fufu Mixture</option></select></div>
+                        <div><label class="block text-xs font-bold text-stone-700 mb-2 uppercase">Message</label><textarea rows="3" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 outline-none"></textarea></div>
+                        <button type="submit" class="w-full py-4 bg-amber-600 text-white font-bold rounded-xl hover:bg-amber-700 transition-all shadow-lg">Send Inquiry</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-amber-950 text-amber-800 py-12 text-center">
+        <div class="flex items-center justify-center gap-2 mb-6">
+            <div class="bg-amber-600 p-1 rounded-md"><i data-lucide="crown" class="text-white w-4 h-4"></i></div>
+            <span class="text-xl font-bold tracking-tight text-white uppercase">Heritage Royal</span>
+        </div>
+        <div class="text-xs text-amber-900">&copy; 2026 Heritage Royal Foods. All rights reserved. <br> Fufu Mfg: 07/03/26 • Exp: 06/03/27</div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const icon = document.getElementById('menuIcon');
+            menu.classList.toggle('hidden');
+            icon.setAttribute('data-lucide', menu.classList.contains('hidden') ? 'menu' : 'x');
+            lucide.createIcons();
+        }
+
+        // Modal Logic
+        function openModal(type, title, category) {
+            const modal = document.getElementById('modal');
+            const wrapper = document.getElementById('modal-content-wrapper');
+            const body = document.getElementById('modal-body');
+            const modalTitle = document.getElementById('modal-title');
+            const modalDesc = document.getElementById('modal-desc');
+
+            modalTitle.innerText = title;
+            modalDesc.innerText = category;
+
+            if (type === 'video') {
+                body.innerHTML = `
+                    <div class="w-full h-full bg-black flex flex-col items-center justify-center">
+                        <i data-lucide="play" class="w-16 h-16 text-amber-500 mb-6 drop-shadow-2xl"></i>
+                        <p class="text-amber-500 font-bold tracking-widest text-sm uppercase">Loading Video Player...</p>
+                        <div class="w-48 h-1 bg-white/10 rounded-full mt-6 overflow-hidden">
+                            <div class="w-1/3 h-full bg-amber-500"></div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                body.innerHTML = `
+                    <div class="w-full h-full bg-stone-100 flex flex-col items-center justify-center p-10">
+                        <i data-lucide="image" class="w-16 h-16 text-stone-300 mb-6"></i>
+                        <p class="text-stone-400 font-bold tracking-widest text-sm uppercase">Viewing High Resolution Flyer...</p>
+                        <div class="mt-10 border-4 border-white shadow-2xl p-4 bg-white">
+                            <div class="w-24 h-32 bg-stone-100 flex items-center justify-center">
+                                <i data-lucide="file-text" class="text-stone-200"></i>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                wrapper.classList.remove('scale-95');
+                wrapper.classList.add('scale-100');
+            }, 10);
+            
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+
+        function closeModal(event) {
+            const modal = document.getElementById('modal');
+            const wrapper = document.getElementById('modal-content-wrapper');
+            
+            wrapper.classList.remove('scale-100');
+            wrapper.classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }, 200);
+        }
+
+        function filterGallery(type) {
+            const videos = document.getElementById('gallery-videos');
+            const images = document.getElementById('gallery-images');
+            const btnVideos = document.getElementById('btn-videos');
+            const btnImages = document.getElementById('btn-images');
+
+            if (type === 'videos') {
+                videos.classList.remove('hidden');
+                images.classList.add('hidden');
+                btnVideos.classList.add('text-amber-900', 'border-amber-600');
+                btnImages.classList.remove('text-amber-900', 'border-amber-600');
+            } else {
+                images.classList.remove('hidden');
+                videos.classList.add('hidden');
+                btnImages.classList.add('text-amber-900', 'border-amber-600');
+                btnVideos.classList.remove('text-amber-900', 'border-amber-600');
+            }
+        }
+    </script>
+</body>
+</html>
