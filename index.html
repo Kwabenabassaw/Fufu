@@ -33,7 +33,20 @@
         }
 
         .video-placeholder {
-            background: #1c1917; /* stone-900 */
+            background: #1c1917; /* stone-900 fallback */
+        }
+
+        .video-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.6;
+            transition: opacity 0.3s ease, transform 0.5s ease;
+        }
+
+        .video-placeholder:hover img {
+            opacity: 0.8;
+            transform: scale(1.05);
         }
 
         .image-placeholder {
@@ -156,11 +169,14 @@
                     </div>
                 </div>
                 <div class="relative">
-                    <div class="rounded-3xl overflow-hidden shadow-2xl border-4 border-white/10 group cursor-pointer" onclick="openModal('video', 'The Heritage Journey', 'Brand Story Video', 'https://www.youtube.com/embed/2QO2HewVhao?si=8y9UyvnRw3V-AL_T')">
+                    <div class="rounded-3xl overflow-hidden shadow-2xl border-4 border-white/10 group cursor-pointer" onclick="openModal('video', 'The Heritage Journey', 'Brand Story Video', 'https://www.youtube.com/embed/Z7ZOXeLbWXI?si=WJnyGSq2Ia1L7zmW')">
                         <div class="aspect-video video-placeholder">
-                            <i data-lucide="play" class="play-btn w-20 h-20 text-amber-500/80 transition-all duration-300"></i>
-                            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
-                            <div class="absolute bottom-6 left-6 text-left">
+                            <!-- YouTube Thumbnail Image -->
+                            <img src="https://img.youtube.com/vi/Z7ZOXeLbWXI/maxresdefault.jpg" alt="Video Thumbnail">
+                            
+                            <i data-lucide="play" class="play-btn absolute w-20 h-20 text-amber-500/80 transition-all duration-300 z-10"></i>
+                            <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors"></div>
+                            <div class="absolute bottom-6 left-6 text-left z-20">
                                 <span class="bg-amber-600 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest">Featured</span>
                                 <h3 class="text-xl font-bold mt-1 text-white">Brand Story: The Heritage Journey</h3>
                             </div>
@@ -219,7 +235,7 @@
                 <div class="product-card group bg-stone-50 rounded-3xl overflow-hidden border border-stone-200 transition-all hover:shadow-2xl">
                     <div class="aspect-square bg-red-50 overflow-hidden relative cursor-pointer" onclick="openModal('image', 'Heritage Royal Soup 🍲', 'Official Ingredients View', 'Images/Soup.jpg')">
                         <div class="w-full h-full flex flex-col items-center justify-center product-image transition-transform duration-500">
-                             <img src="Images/Soup.jpg" alt="Heritage Royal Soup" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/600x600?text=Soup+Product'">
+                             <img src="Images/soap.jpg" alt="Heritage Royal Soup" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/600x600?text=Soup+Product'">
                         </div>
                         <div class="absolute top-4 right-4 bg-red-600 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase">Signature Blend</div>
                     </div>
@@ -244,39 +260,42 @@
             <h2 class="text-4xl font-bold text-amber-950 mb-16 text-center">The Royal Standard</h2>
             <div class="grid md:grid-cols-3 gap-12">
                 <!-- Video Step 1 -->
-                <div class="relative group cursor-pointer" onclick="openModal('video', 'Step 1: Ethical Sourcing', 'Raw Ingredient Selection', 'https://www.youtube.com/embed/2QO2HewVhao?si=8y9UyvnRw3V-AL_T')">
+                <div class="relative group cursor-pointer" onclick="openModal('video', 'Step 1:Sourcing', 'Raw Ingredient Selection', 'https://www.youtube.com/embed/Z7ZOXeLbWXI?si=KYidX--EvnRp8ZHz')">
                     <div class="bg-white rounded-2xl overflow-hidden shadow-md mb-6 p-1 border border-stone-200">
                         <div class="aspect-video video-placeholder rounded-xl">
-                            <i data-lucide="play-circle" class="play-btn w-12 h-12 text-white/50"></i>
-                            <div class="absolute inset-0 video-overlay flex items-end p-4">
+                            <img src="https://img.youtube.com/vi/Z7ZOXeLbWXI/hqdefault.jpg" alt="Sourcing Thumbnail">
+                            <i data-lucide="play-circle" class="play-btn absolute w-12 h-12 text-white/80 z-10"></i>
+                            <div class="absolute inset-0 video-overlay flex items-end p-4 z-20">
                                 <span class="text-white text-xs font-bold uppercase tracking-widest opacity-80">Sourcing</span>
                             </div>
                         </div>
                     </div>
-                    <h4 class="text-xl font-bold text-amber-950 mb-2">1. Ethical Sourcing</h4>
+                    <h4 class="text-xl font-bold text-amber-950 mb-2">1.Sourcing</h4>
                     <p class="text-stone-500 text-sm">Hand-selecting organic Prekese and Turkey Berry from vetted partners.</p>
                 </div>
 
                 <!-- Video Step 2 -->
-                <div class="relative group cursor-pointer" onclick="openModal('video', 'Step 2: Artisanal Processing', 'Factory Blending Process', 'https://www.youtube.com/embed/2QO2HewVhao?si=8y9UyvnRw3V-AL_T')">
+                <div class="relative group cursor-pointer" onclick="openModal('video', 'Step 2:Processing', 'Factory Blending Process', 'https://www.youtube.com/embed/zUZd1lAmZsg?si=8y9UyvnRw3V-AL_T')">
                     <div class="bg-white rounded-2xl overflow-hidden shadow-md mb-6 p-1 border border-stone-200">
                         <div class="aspect-video video-placeholder rounded-xl">
-                            <i data-lucide="play-circle" class="play-btn w-12 h-12 text-white/50"></i>
-                            <div class="absolute inset-0 video-overlay flex items-end p-4">
+                            <img src="https://img.youtube.com/vi/zUZd1lAmZsg/hqdefault.jpg" alt="Processing Thumbnail">
+                            <i data-lucide="play-circle" class="play-btn absolute w-12 h-12 text-white/80 z-10"></i>
+                            <div class="absolute inset-0 video-overlay flex items-end p-4 z-20">
                                 <span class="text-white text-xs font-bold uppercase tracking-widest opacity-80">Processing</span>
                             </div>
                         </div>
                     </div>
-                    <h4 class="text-xl font-bold text-amber-950 mb-2">2. Artisanal Processing</h4>
+                    <h4 class="text-xl font-bold text-amber-950 mb-2">2.Processing</h4>
                     <p class="text-stone-500 text-sm">Hygienic peeling and grinding using traditional spice methods.</p>
                 </div>
 
                 <!-- Video Step 3 -->
-                <div class="relative group cursor-pointer" onclick="openModal('video', 'Step 3: Secure Packaging', 'Vacuum Sealing & QC', 'https://www.youtube.com/embed/2QO2HewVhao?si=8y9UyvnRw3V-AL_T')">
+                <div class="relative group cursor-pointer" onclick="openModal('video', 'Step 3: Secure Packaging', 'Vacuum Sealing & QC', 'https://www.youtube.com/embed/t5Qi25mTe8M?si=8y9UyvnRw3V-AL_T')">
                     <div class="bg-white rounded-2xl overflow-hidden shadow-md mb-6 p-1 border border-stone-200">
                         <div class="aspect-video video-placeholder rounded-xl">
-                            <i data-lucide="play-circle" class="play-btn w-12 h-12 text-white/50"></i>
-                            <div class="absolute inset-0 video-overlay flex items-end p-4">
+                            <img src="https://img.youtube.com/vi/t5Qi25mTe8M/hqdefault.jpg" alt="Packaging Thumbnail">
+                            <i data-lucide="play-circle" class="play-btn absolute w-12 h-12 text-white/80 z-10"></i>
+                            <div class="absolute inset-0 video-overlay flex items-end p-4 z-20">
                                 <span class="text-white text-xs font-bold uppercase tracking-widest opacity-80">Quality Control</span>
                             </div>
                         </div>
@@ -304,40 +323,39 @@
 
             <!-- Videos Grid -->
             <div id="gallery-videos" class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <div class="col-span-2 row-span-2 group cursor-pointer" onclick="openModal('video', 'The Taste of Home - TV Spot', 'Commercial Advertisement', 'https://www.youtube.com/embed/2QO2HewVhao?si=8y9UyvnRw3V-AL_T')">
+                <div class="col-span-2 row-span-2 group cursor-pointer" onclick="openModal('video', 'The Taste of Home - TV Spot', 'Commercial Advertisement', 'https://www.youtube.com/embed/Z7ZOXeLbWXI?si=8y9UyvnRw3V-AL_T')">
                     <div class="aspect-square video-placeholder rounded-3xl shadow-lg border-2 border-stone-100">
-                        <i data-lucide="play" class="play-btn w-16 h-16 text-white/60"></i>
-                        <div class="absolute inset-0 video-overlay flex flex-col justify-end p-8">
+                        <img src="https://img.youtube.com/vi/Z7ZOXeLbWXI/maxresdefault.jpg" alt="Main Ad Thumbnail">
+                        <i data-lucide="play" class="play-btn absolute w-16 h-16 text-white/80 z-10"></i>
+                        <div class="absolute inset-0 video-overlay flex flex-col justify-end p-8 z-20">
                             <span class="text-amber-400 text-xs font-bold uppercase tracking-widest mb-2">Advertisement</span>
                             <h4 class="text-2xl font-bold text-white">"The Taste of Home"</h4>
                         </div>
                     </div>
                 </div>
                 <!-- Mini Videos -->
-                <div class="group cursor-pointer" onclick="openModal('video', 'Soup Base Preparation', 'Production Highlight', 'https://www.youtube.com/embed/2QO2HewVhao?si=8y9UyvnRw3V-AL_T')">
+                <div class="group cursor-pointer" onclick="openModal('video', 'Soup Base Preparation', 'Production Highlight', 'https://www.youtube.com/embed/Z7ZOXeLbWXI?si=8y9UyvnRw3V-AL_T')">
                     <div class="aspect-square video-placeholder rounded-3xl">
-                        <i data-lucide="play-circle" class="play-btn w-10 h-10 text-white/40"></i>
-                        <div class="absolute inset-0 video-overlay flex items-end p-4"><span class="text-white text-[10px] font-bold uppercase">Prep</span></div>
+                        <img src="https://img.youtube.com/vi/Z7ZOXeLbWXI/hqdefault.jpg" alt="Mini Thumbnail">
+                        <i data-lucide="play-circle" class="play-btn absolute w-10 h-10 text-white/60 z-10"></i>
+                        <div class="absolute inset-0 video-overlay flex items-end p-4 z-20"><span class="text-white text-[10px] font-bold uppercase">Prep</span></div>
                     </div>
                 </div>
-                <div class="group cursor-pointer" onclick="openModal('video', 'Factory Hygiene Tour', 'Sustainability Feature', 'https://www.youtube.com/embed/2QO2HewVhao?si=8y9UyvnRw3V-AL_T')">
+                <div class="group cursor-pointer" onclick="openModal('video', 'Factory Hygiene Tour', 'Sustainability Feature', 'https://www.youtube.com/embed/t5Qi25mTe8M?si=8y9UyvnRw3V-AL_T')">
                     <div class="aspect-square video-placeholder rounded-3xl">
-                        <i data-lucide="play-circle" class="play-btn w-10 h-10 text-white/40"></i>
-                        <div class="absolute inset-0 video-overlay flex items-end p-4"><span class="text-white text-[10px] font-bold uppercase">Tour</span></div>
+                        <img src="https://img.youtube.com/vi/t5Qi25mTe8M/hqdefault.jpg" alt="Mini Thumbnail">
+                        <i data-lucide="play-circle" class="play-btn absolute w-10 h-10 text-white/60 z-10"></i>
+                        <div class="absolute inset-0 video-overlay flex items-end p-4 z-20"><span class="text-white text-[10px] font-bold uppercase">Tour</span></div>
                     </div>
                 </div>
                 <div class="group cursor-pointer" onclick="openModal('video', 'Consistency Test', 'QC Feature', 'https://www.youtube.com/embed/2QO2HewVhao?si=8y9UyvnRw3V-AL_T')">
                     <div class="aspect-square video-placeholder rounded-3xl">
-                        <i data-lucide="play-circle" class="play-btn w-10 h-10 text-white/40"></i>
-                        <div class="absolute inset-0 video-overlay flex items-end p-4"><span class="text-white text-[10px] font-bold uppercase">QC</span></div>
+                        <img src="https://img.youtube.com/vi/zUZd1lAmZsg/hqdefault.jpg" alt="Mini Thumbnail">
+                        <i data-lucide="play-circle" class="play-btn absolute w-10 h-10 text-white/60 z-10"></i>
+                        <div class="absolute inset-0 video-overlay flex items-end p-4 z-20"><span class="text-white text-[10px] font-bold uppercase">QC</span></div>
                     </div>
                 </div>
-                <div class="group cursor-pointer" onclick="openModal('video', 'Social Media Ad 01', 'Short Promo', 'https://www.youtube.com/embed/2QO2HewVhao?si=8y9UyvnRw3V-AL_T')">
-                    <div class="aspect-square video-placeholder rounded-3xl">
-                        <i data-lucide="play-circle" class="play-btn w-10 h-10 text-white/40"></i>
-                        <div class="absolute inset-0 video-overlay flex items-end p-4"><span class="text-white text-[10px] font-bold uppercase">Promo</span></div>
-                    </div>
-                </div>
+             
             </div>
 
             <!-- Images Grid -->
@@ -377,7 +395,7 @@
                 </div>
                 <div class="flex justify-center">
                     <div class="aspect-[4/5] w-full max-w-sm bg-amber-900/50 rounded-3xl flex items-center justify-center border border-amber-800">
-                        <i data-lucide="award" class="w-32 h-32 text-amber-800/50"></i>
+                        <img  src="Images/Logo-removebg-preview.png" class="w-72 h-64 text-amber-800/50"></img>
                     </div>
                 </div>
             </div>
@@ -450,12 +468,10 @@
 
             if (type === 'video') {
                 if (contentUrl && contentUrl !== 'ADD_YOUTUBE_LINK_HERE') {
-                    // 1. Switch to youtube-nocookie.com to bypass local file configuration errors
+                    // Correcting URL logic to prevent configuration errors.
                     let finalUrl = contentUrl.replace("www.youtube.com", "www.youtube-nocookie.com");
-                    
-                    // 2. Add parameters safely without adding multiple question marks
-                    const joiner = finalUrl.includes('?') ? '&' : '?';
-                    finalUrl += `${joiner}autoplay=1&mute=1&rel=0`;
+                    const separator = finalUrl.includes('?') ? '&' : '?';
+                    finalUrl += `${separator}autoplay=1&mute=1&rel=0`;
 
                     body.innerHTML = `
                         <iframe 
@@ -473,6 +489,7 @@
                         <div class="w-full h-full bg-black flex flex-col items-center justify-center p-10 text-center text-white">
                             <i data-lucide="video-off" class="w-16 h-16 text-amber-500/50 mb-6"></i>
                             <h5 class="text-xl font-bold text-amber-500 mb-2">Video Link Pending</h5>
+                            <p class="text-stone-400">Please provide a valid YouTube embed link in the code.</p>
                         </div>
                     `;
                 }
@@ -481,6 +498,13 @@
                     body.innerHTML = `
                         <div class="w-full h-full bg-stone-900 flex items-center justify-center p-2">
                             <img src="${contentUrl}" alt="${title}" class="max-h-full max-w-full object-contain rounded-lg shadow-2xl" onerror="this.src='https://via.placeholder.com/800x450?text=Image+Not+Found'">
+                        </div>
+                    `;
+                } else {
+                    body.innerHTML = `
+                        <div class="w-full h-full bg-stone-100 flex flex-col items-center justify-center p-10">
+                            <i data-lucide="image" class="w-16 h-16 text-stone-300 mb-6"></i>
+                            <p class="text-stone-400 font-bold tracking-widest text-sm uppercase">No Image Specified</p>
                         </div>
                     `;
                 }
